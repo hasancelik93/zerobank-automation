@@ -10,7 +10,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
 
         plugin = {"json:target/cucumber.json",
-                "html:target/default-html-reports"           // simple report in cucumber run through intellij not maven
+                "html:target/default-html-reports" ,          // simple report in cucumber run through intellij not maven
+                "rerun:target/rerun.txt"
         },
         features = "src/test/resources/features",
         glue = "com/zerobank/stepdefinitions",

@@ -8,7 +8,14 @@ import com.zerobank.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class TransactionsStepDefs {
 
@@ -51,9 +58,25 @@ public class TransactionsStepDefs {
 
 
     @Then("results table	should only	show transactions dates	between {string} to {string}")
-    public void results_table_should_only_show_transactions_dates_between_to(String string, String string2) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void results_table_should_only_show_transactions_dates_between_to(String fromDate, String toDate) {
+        BrowserUtils.waitFor(2);
+        List<WebElement> dates = new TransactionsPage().tableColums("Date");
+        List<String> dateString = BrowserUtils.getElementsText(dates);
+        List<Integer> dateInt= new ArrayList<>();
+
+        for (String s : dateString) {
+            s=s.replace("-","");
+            dateInt.add(Integer.parseInt(s));
+        }
+
+        int expectedToDate = Integer.parseInt(toDate.replace("-",""));
+        int expectedFromDate= Integer.parseInt(fromDate.replace("-",""));
+        Assert.assertTrue(dateInt.get(0)<=expectedToDate);
+        Assert.assertTrue(dateInt.get(dateInt.size()-1)>=expectedFromDate);
+
+
+        System.out.println(dateInt);
+
     }
 
     @Then("the results should be sorted by most recent date")

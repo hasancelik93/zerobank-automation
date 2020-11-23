@@ -20,12 +20,12 @@ public class Hooks {
     }
 
     @After
-    public void tearDown(Scenario scenario){
+    public void tearDown(Scenario scenario) throws InterruptedException {
         if(scenario.isFailed()){
             final byte[] screenshot = ((TakesScreenshot) Driver.get()).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot,"image/png","screenshot");
         }
-
+        Thread.sleep(2);
         Driver.closeDriver();
 
     }
